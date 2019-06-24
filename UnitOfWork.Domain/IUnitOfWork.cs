@@ -1,7 +1,10 @@
-﻿namespace UnitOfWork
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace UnitOfWork
 {
     public interface IUnitOfWork:IActiveUnitOfWork
     {
-        //int SaveChanges();
+        //int SaveAllChanges();
+        TDbContext GetOrCreateDbContext<TDbContext>() where TDbContext : DbContext;
     }
 }

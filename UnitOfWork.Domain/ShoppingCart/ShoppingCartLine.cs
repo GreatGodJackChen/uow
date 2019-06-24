@@ -1,6 +1,6 @@
 namespace UnitOfWork.ShoppingCart
 {
-    public class ShoppingCartLine : Entity
+    public class ShoppingCartLine : AggregateRoot
     {
         public int ShoppingCartId { get; set; }
         public virtual UnitOfWork.ShoppingCart.ShoppingCart ShoppingCart { get; set; }

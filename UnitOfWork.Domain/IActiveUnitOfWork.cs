@@ -6,6 +6,6 @@ namespace UnitOfWork
 {
     public interface IActiveUnitOfWork
     {
-        int SaveChanges();
+        void SaveChanges();
     }
 }

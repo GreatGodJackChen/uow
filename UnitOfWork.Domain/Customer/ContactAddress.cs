@@ -3,7 +3,7 @@ namespace UnitOfWork.Customer
     /// <summary>
     /// 联系人地址
     /// </summary>
-    public class ContactAddress : Entity
+    public class ContactAddress : AggregateRoot
     {
         public ContactAddress(string contactRealName, string contactPhone, string province, string city, string county,
             string street, string zip = "")

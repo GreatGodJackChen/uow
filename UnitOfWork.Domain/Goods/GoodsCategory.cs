@@ -5,7 +5,7 @@ namespace UnitOfWork.Goods
     /// <summary>
     /// 商品类别
     /// </summary>
-    public class GoodsCategory : Entity
+    public class GoodsCategory : AggregateRoot
     {
         public string Name { get; set; }
         public string Description { get; set; }

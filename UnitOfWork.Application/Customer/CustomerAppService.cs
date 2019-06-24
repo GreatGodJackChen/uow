@@ -8,11 +8,12 @@ namespace UnitOfWork.Customer
         private readonly IRepository<Customer> _customerRepository;
         private readonly IRepository<ShoppingCart.ShoppingCart> _shoppingCartRepository;
 
-        public CustomerAppService(IRepository<ShoppingCart.ShoppingCart> shoppingCartRepository, IRepository<Customer> customerRepository, IUnitOfWork unitOfWork)
+        public CustomerAppService(IRepository<Customer> customerRepository, IUnitOfWork unitOfWork)
         {
-            _shoppingCartRepository = shoppingCartRepository;
-            _customerRepository = customerRepository;
             _unitOfWork = unitOfWork;
+            //_shoppingCartRepository = shoppingCartRepository;
+            _customerRepository = customerRepository;
+
         }
 
         public Customer GetCustomerById(int customerId)

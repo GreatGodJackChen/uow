@@ -16,19 +16,18 @@ namespace UnitOfWork.Repositories
     }
 
     public class EfCoreRepository<TDbContext,TEntity, TPrimaryKey>
-        : Repository<TEntity, TPrimaryKey>, IRepositoryWithDbContext
+        : Repository<TEntity, TPrimaryKey>
         where TEntity : class, IEntity<TPrimaryKey>, IAggregateRoot<TPrimaryKey>
         where TDbContext:DbContext
     {
-        private readonly TDbContext _dbContext;
-
-        public virtual DbSet<TEntity> Table => _dbContext.Set<TEntity>();
-        private IDbContextProvider<TDbContext> _dbContextProvider;
+        private readonly IDbContextProvider<TDbContext> _dbContextProvider;
         public EfCoreRepository(IDbContextProvider<TDbContext> dbContextProvider)
         {
             _dbContextProvider = dbContextProvider;
         }
+        public TDbContext DbContext => _dbContextProvider.GetDbContext();
 
+        public virtual DbSet<TEntity> Table => DbContext.Set<TEntity>();
         public override IQueryable<TEntity> GetAll()
         {
             return Table.AsQueryable();
@@ -44,7 +43,7 @@ namespace UnitOfWork.Repositories
         public override TEntity Update(TEntity entity)
         {
             AttachIfNot(entity);
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            DbContext.Entry(entity).State = EntityState.Modified;
 
             //_dbContext.SaveChanges();
 
@@ -78,12 +77,12 @@ namespace UnitOfWork.Repositories
 
         public DbContext GetDbContext()
         {
-            return _dbContext;
+            return DbContext;
         }
 
         protected virtual void AttachIfNot(TEntity entity)
         {
-            var entry = _dbContext.ChangeTracker.Entries().FirstOrDefault(ent => ent.Entity == entity);
+            var entry = DbContext.ChangeTracker.Entries().FirstOrDefault(ent => ent.Entity == entity);
             if (entry != null)
             {
                 return;
@@ -94,7 +93,7 @@ namespace UnitOfWork.Repositories
 
         private TEntity GetFromChangeTrackerOrNull(TPrimaryKey id)
         {
-            var entry = _dbContext.ChangeTracker.Entries()
+            var entry = DbContext.ChangeTracker.Entries()
                 .FirstOrDefault(
                     ent =>
                         ent.Entity is TEntity &&

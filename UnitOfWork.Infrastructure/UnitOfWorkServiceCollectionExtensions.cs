@@ -1,15 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace UnitOfWork
 {
-    public static class UnitOfWorkServiceCollectionExtensions
+    public static  class UnitOfWorkServiceCollectionExtensions
     {
-        public static IServiceCollection AddUnitOfWork<TContext>(this IServiceCollection services) where TContext : DbContext
+        public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddScoped<IUnitOfWork, UnitOfWork<TContext>>();
-
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            //services.
             return services;
         }
+       // public static IServiceCollection AddDbCo(this IServiceCollection services
     }
 }
